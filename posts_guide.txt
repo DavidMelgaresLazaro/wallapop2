@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Style-Type" content="text/css" /> 
+    <meta name="viewport" content="width=device-width">
+    <title>posts_guide.txt</title>
+    <link href="/library/skin/tool_base.css" type="text/css" rel="stylesheet" media="all" />
+    <link href="/library/skin/morpheus-udl/tool.css" type="text/css" rel="stylesheet" media="all" />
+    <script type="text/javascript" src="/library/js/headscripts.js"></script>
+    <style>body { padding: 5px !important; }</style>
+  </head>
+  <body>
+## Set up environment
+conda create -n django_env python=3.9 django
+conda activate django_env
+
+## Create project
+django-admin startproject project_name
+cd project_name
+
+## Startup project
+python manage.py migrate   ### Migrations to DB (SQLITE default)
+python manage.py runserver ### Runs local server
+
+## Create basic app (BLOG)
+python manage.py startapp app_name
+
+# Edit project_name/settings.py
+# Add app_name to INSTALLED_APPS
+
+## Create model
+# Edit app_name/models.py
+# Add
+class Post(models.Model):
+    title = models.CharField(max_length=120)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+# If editing models.py you need to make migration (put models to database)
+python manage.py makemigrations
+python manage.py migrate
+
+## Test admin area
+# We need an admin user
+python manage.py createsuperuser
+python manage.py runserver ### Runs local server
+# In browser go to localhost:8000/admin
+
+## Monitor models from admin area
+# Models have to be added to app_name/admin.py
+# Add
+from .models import Post
+admin.site.register(Post)
+# Reload admin area
+# Can create posts
+
+## Edit Views
+# Edit app_name/views.py
+# Add
+from .models import Post
+def post_list_view(request):
+    post_objs = Post.objects.all()
+    context = {
+        'post_objects' : post_objs,
+    }
+    return render(request, 'index.html', context)
+# Create template folder
+mkdir app_name/templates
+
+# Create file app_name/templates/index.html
+# Edit this html file. Add
+<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body>
+    <h1>Our list of posts</h1>
+    {{ post_objects }}
+</body>
+</html>
+
+# View has to be registered
+# Edit project_name/urls.py
+from app_name.views import post_list_view
+
+urlpatterns = [
+    ...
+    path('posts/', post_list_view),
+]
+
+# Smart templates
+# Rewrite app_name/templates/posts/index.html
+<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body>
+    <h1>Our list of posts</h1>
+    {% for post in post_objects %}
+        <p> {{post}} </p>
+    {% endfor %}
+</body>
+</html>
+  </body>
+</html>
