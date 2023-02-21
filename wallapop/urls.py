@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from wallapop_app.views import anunci_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',anunci_view),
 ]
