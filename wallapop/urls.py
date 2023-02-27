@@ -17,11 +17,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,look_profile
+from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,look_profile,newad
 
-
-
-from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,newad
 
 from django.urls import path
 

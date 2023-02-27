@@ -40,11 +40,6 @@ def get_anunci(request, name):
     
     context = {
         'anunci' : obj,
-=======
-
-    context = {
-        'post' : obj,
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
     }
     return render(request, 'anunci-details.html', context)
 
@@ -83,3 +78,16 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
+
+@login_required
+def newad(request):
+    
+    anunci_form = PostAnunciForm(request.POST or None)
+    if anunci_form.is_valid():
+        anunci_form.save()
+        return redirect('newad')
+    context = {
+        'form' : anunci_form,
+    }
+    return render(request, 'newad.html', context)
+
