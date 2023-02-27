@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 
 from django.contrib.auth.models import User
-from .models import Profile,Anunci
+from .models import Profile,Anunci,Comentari
 
 
 
@@ -51,21 +51,24 @@ class AnunciForm(forms.ModelForm):
             inst.save()
             self.save_m2m()
         return inst
-    # def clean_image(self):
-    #     foto = self.cleaned_data.get('foto')
-    #     if not foto:
-    #         return foto
-    #     maxdim = 1024
-    #     if any(dim > maxdim for dim in foto.image.size):
-    #         # Resize too large image up to the max_size
-    #         from PIL import Image
-    #         i = Image.open(foto.file)
-    #         fmt = i.format.lower()
-    #         i.thumbnail((maxdim, maxdim))
-    #         # We must reset io.BytesIO object, otherwise resized image bytes
-    #         # will get appended to the original image  
-    #         foto.file = type(foto.file)()
-    #         i.save(foto.file, fmt)
-    #     return foto
+    
+class ComentariForm(forms.ModelForm):
+    description = forms.Textarea()
+    def __init__(self, *args, **kwargs):
+        self.titol = kwargs.pop('titol')
+        super(ComentariForm, self).__init__(*args, **kwargs)
+    class Meta:
+        model = Comentari
+        exclude = ["titol","name","data_com"]
+        fields = [
+            'description',
+        ]
+    def save(self, commit=True):
+        inst = super(ComentariForm, self).save(commit=False)
+        inst.titol = self.titol
+        if commit:
+            inst.save()
+            self.save_m2m()
+        return inst
     
         

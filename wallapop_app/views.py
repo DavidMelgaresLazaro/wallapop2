@@ -13,7 +13,7 @@ from .models import Comentari
 from django.contrib.auth.models import User
 
 
-from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm
+from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm,ComentariForm
 
 
 from django.shortcuts import render, redirect
@@ -40,9 +40,24 @@ def get_anunci(request, iden):
     #    raise Http404
     obj = get_object_or_404(Anunci, id=iden)
 
+    comments = Comentari.objects.all().filter(titol = obj)
+
+    if request.user.is_authenticated:
+
+        comentari_form = ComentariForm(request.POST or None,titol = obj)
+        print(comentari_form)
+        if comentari_form.is_valid():
+            comentari_form.save()
+            messages.success(request, 'Anunci penjat')
+        #else:
+        # comentari_form = ComentariForm()
+
+
     
     context = {
         'anunci' : obj,
+        'comments' : comments,
+        'comentari' : comentari_form,
     }
     return render(request, 'anunci-details.html', context)
 
@@ -98,14 +113,20 @@ def afegiranunci(request):
     return render(request, 'add_anunci.html',context)
 
 def veureperfil(request,name):
-    usuari = get_object_or_404(User, username=name)
+    user = get_object_or_404(User, username=name)
 
-    anuncis = Anunci.objects.all().filter(name = usuari)
+    anuncis = Anunci.objects.all().filter(name = user)
+    usuari = Usuari.objects.get(user = user)
+
+
 
     context = {
-        'user' : usuari,
+        'user' : user,
         'anuncis' : anuncis,
+        'usuari' : usuari,
     }
     return render(request, 'profile_view.html', context)
+
+    
 
 

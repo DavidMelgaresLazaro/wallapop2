@@ -19,13 +19,12 @@ class Usuari(models.Model):
     adress=models.CharField(max_length=300)
     zip_code=models.CharField('Codigo Postal', max_length=15)
     phone=models.CharField('Telefono de Conatcto', max_length=25)
-    email=models.EmailField('Email de Contacto')
     avatar=models.ImageField(upload_to='profile_images', blank=True, null=True)
     bio = models.TextField(max_length=300)
 
 
     def __str__(self):
-       return self.name + ' , '+self.email
+       return self.name
 
     def get_absolute_url(self):
         return reverse('profile_view', kwargs={'user':self.id})
@@ -77,8 +76,7 @@ class Comentari(models.Model):
     name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
     titol = models.ForeignKey(Anunci,on_delete=models.CASCADE,blank=True,null=True)
     data_com = models.DateTimeField(default=timezone.now)
-    description = models.TextField(blank=True)
-    id = models.IntegerField('ID', primary_key=True)
+    description = models.TextField()
 
 
 

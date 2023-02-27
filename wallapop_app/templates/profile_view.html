@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block title %}Profile Page{% endblock title %}
 {% block container %}
-<h1 style="color: black;text-align: center;">{{ user.username }}</h1>
+    <img class="rounded-circle" src="/images/{{ usuari.avatar }} " width="400" 
+    height="400" />
+<h1 style="color: black;text-align: center;">{{ usuari.name }}</h1>
+<p>{{ user.username }}</p>
 <p>Email : {{ user.email }}</p>
-<p>{{ user.bio }}</p>
+<a href="{% url 'profile' %}">Editar Perfil</a>
+
+<h1 style="color: black;text-align: center;">Anuncis:</h1>
+
+<p>{{ usuari.bio }}</p>
     {% for anunci in anuncis %}
         <b>{{anunci.titol}}</b> <br>
         <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
