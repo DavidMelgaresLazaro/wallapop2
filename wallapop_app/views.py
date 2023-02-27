@@ -100,21 +100,7 @@ def afegiranunci(request):
 def veureperfil(request,name):
     usuari = get_object_or_404(User, username=name)
 
-    # Joan Jaume:Would like to acces our One to One Usuari model, but as usuari beeing an instance
-    #we cannot do that. As well we tried to achive doing that by filtering our query and retrive
-    #our Usuari model to display all of their things like bio, but that ain't the right way.
-
-    anuncis = Anunci.objects.all()
-    # anuncis1 = None
-    # for anunci in anuncis:
-    #     str = anunci.toString("d")
-    #     if str == name:
-    #         if anuncis1 == None:
-    #             anuncis1 = anunci | anunci
-    #         else:
-    #             anuncis1 = anuncis1 |  anunci
-            
-    
+    anuncis = Anunci.objects.all().filter(name = usuari)
 
     context = {
         'user' : usuari,
