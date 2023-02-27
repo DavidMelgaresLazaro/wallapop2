@@ -1,14 +1,11 @@
 from django.db import models
 from django.utils import timezone
-from django import forms
+from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django.urls import reverse
 
 from .models import User
 
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from PIL import Image
 
 
 
@@ -50,6 +47,33 @@ class Anunci(models.Model):
     
     def get_absolute_url(self):
         return reverse('anunci-details', kwargs={'name':self.id})
+    
+class AnunciModelForm(ModelForm):
+    class Meta:
+        model = Anunci
+        exclude = ['date','name']
+        fields = [
+            'foto',
+            'titol',
+            'description',
+            'preu',
+        ]
+    def clean_image(self):
+        foto = self.cleaned_data.get('image')
+        if not foto:
+            return foto
+        maxdim = 1024
+        if any(dim > maxdim for dim in foto.image.size):
+            # Resize too large image up to the max_size
+            from PIL import Image
+            i = Image.open(foto.file)
+            fmt = i.format.lower()
+            i.thumbnail((maxdim, maxdim))
+            # We must reset io.BytesIO object, otherwise resized image bytes
+            # will get appended to the original image  
+            foto.file = type(foto.file)()
+            i.save(foto.file, fmt)
+        return foto
 
 
 

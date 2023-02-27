@@ -6,6 +6,10 @@
 <body>
     <h1 style="color: black;text-align: center;">{{ anunci.titol }}</h1>
     <a><img src="{{ MEDIA_URL }}{{ anunci.foto }}" width="500" height="300"></a>
+    <p><b>Usuari:</b><a href="{{anunci.name.get_absolute_url }}"> {{anunci.name}}</p></a>
+    <p><b>Data:</b>{{anunci.data}}</p>
+    <p>{{anunci.descripton}}</p>
+    <p><b>Preu:</b> {{anunci.preu}}€</p>
 </body>
 {% endblock container%}
 </html>

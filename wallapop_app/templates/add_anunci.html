@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block contingut %}
+<div>
+    <h1 style="color: black;text-align: center;">Afegir Anunci</h1>
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Afegir</button>
+    </form>
+</div>
+{% endblock %}

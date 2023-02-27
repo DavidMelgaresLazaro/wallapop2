@@ -76,6 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'wallapop.wsgi.application'
+DEBUG = True
 
 
 # Database

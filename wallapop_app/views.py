@@ -10,7 +10,7 @@ from .models import Anunci
 from .models import Usuari
 from .models import Comentari
 
-from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm,PostAnunciForm
+from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm
 
 
 from django.shortcuts import render, redirect
@@ -59,6 +59,7 @@ def edit_profile(request):
 
 @login_required
 def profile(request):
+    print(request.method)
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
@@ -80,14 +81,21 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_url = reverse_lazy('users-home')
 
 @login_required
-def newad(request):
-    name = request.name
-    anunci_form = PostAnunciForm(request.POST or None)
-    if anunci_form.is_valid():
-        anunci_form.save()
-        return redirect('newad')
+def afegiranunci(request):
+    anunci_form = AnunciForm(request.user)
+    print(request.method)
+    if request.method == 'POST':
+        print(anunci_form.is_valid())
+        if anunci_form.is_valid():
+            anunci_form.save()
+            messages.success(request, 'Anunci penjat')
+            return redirect(to='')
+    else:
+        print("no valid")
+
     context = {
-        'form' : anunci_form,
+        'anunci' : anunci_form,
     }
-    return render(request, 'newad.html', context)
+    return render(request, 'add_anunci.html',context)
+
 

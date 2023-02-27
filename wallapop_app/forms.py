@@ -29,40 +29,11 @@ class UpdateProfileForm(forms.ModelForm):
 
 class AnunciForm(forms.Form):
     foto = forms.ImageField()
-    titol = forms.CharField(max_length= 300)
-    data = forms.DateTimeField(initial=timezone.now)
-    description = forms.CharField(max_length=500)
-    preu = forms.IntegerField()
+    titol = forms.CharField(widget=forms.Textarea,max_length= 300)
+    description = forms.CharField(widget=forms.Textarea,max_length=500)
+    preu = forms.IntegerField(widget=forms.Textarea)
     def __init__(self, user, *args, **kwargs):
         super(AnunciForm, self).__init__(*args, **kwargs)
         self.user = user
-        self.name = forms.CharField(initial= user,max_length=100)
-
-
-class PostAnunciForm(forms.ModelForm):
-    class Meta:
-        model = Anunci
-        fields = [
-            'foto',
-            'titol',
-            'name',
-            'data',
-            'description',
-            'preu',
-        ]
-    def clean_image(self):
-        img = self.cleaned_data.get('image')
-        if not img:
-            return img
-        maxdim = 1024
-        if any(dim > maxdim for dim in img.image.size):
-            # Resize too large image up to the max_size
-            from PIL import Image
-            i = Image.open(img.file)
-            fmt = i.format.lower()
-            i.thumbnail((maxdim, maxdim))
-            # We must reset io.BytesIO object, otherwise resized image bytes
-            # will get appended to the original image  
-            img.file = type(img.file)()
-            i.save(img.file, fmt)
-        return img
+        self.name = forms.CharField(initial = user)
+        
