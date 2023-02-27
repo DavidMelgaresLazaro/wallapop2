@@ -126,7 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_ROOT = '/Users/davidmelgares/wallapop/images'
+MEDIA_ROOT = '/Users/joanjaume/wallapop/images'
 MEDIA_URL = 'images/'
 
 # Default primary key field type

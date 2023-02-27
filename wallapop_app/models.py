@@ -30,6 +30,8 @@ class Usuari(models.Model):
 
     def get_absolute_url(self):
         return reverse('profile_view', kwargs={'user':self.id})
+    def get_name(self):
+        return self.user
 
 
 
@@ -38,7 +40,7 @@ class Anunci(models.Model):
     titol = models.CharField('Asunto', max_length= 300)
     name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
     data = models.DateTimeField(default=timezone.now)
-    description = models.TextField(blank=True)
+    description = models.TextField(blank=True,max_length=300)
     preu = models.IntegerField('Precio')
     
 
@@ -48,32 +50,6 @@ class Anunci(models.Model):
     def get_absolute_url(self):
         return reverse('anunci-details', kwargs={'name':self.id})
     
-class AnunciModelForm(ModelForm):
-    class Meta:
-        model = Anunci
-        exclude = ['date','name']
-        fields = [
-            'foto',
-            'titol',
-            'description',
-            'preu',
-        ]
-    def clean_image(self):
-        foto = self.cleaned_data.get('image')
-        if not foto:
-            return foto
-        maxdim = 1024
-        if any(dim > maxdim for dim in foto.image.size):
-            # Resize too large image up to the max_size
-            from PIL import Image
-            i = Image.open(foto.file)
-            fmt = i.format.lower()
-            i.thumbnail((maxdim, maxdim))
-            # We must reset io.BytesIO object, otherwise resized image bytes
-            # will get appended to the original image  
-            foto.file = type(foto.file)()
-            i.save(foto.file, fmt)
-        return foto
 
 
 
