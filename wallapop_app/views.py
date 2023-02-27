@@ -36,9 +36,9 @@ def get_anunci(request, name):
     # except Post.DoesNotExist:
     #    raise Http404
     obj = get_object_or_404(Anunci, id=name)
-
+    
     context = {
-        'post' : obj,
+        'anunci' : obj,
     }
     return render(request, 'anunci-details.html', context)
 

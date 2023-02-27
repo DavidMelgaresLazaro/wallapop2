@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+<html>
 {% block container %}
-<h1 style="color: black;text-align: center;">Hola</h1>
-
-
-
-<h1 style="color: black;text-align: center;">{{anunci.name}}</h1>
-{% endblock %}
+<head><title>{{ anunci.titol }}</title></head>
+<body>
+    <h1 style="color: black;text-align: center;">{{ anunci.titol }}</h1>
+    <a><img src="{{ MEDIA_URL }}{{ anunci.foto }}" width="500" height="300"></a>
+</body>
+{% endblock container%}
+</html>
