@@ -23,6 +23,7 @@ class Usuari(models.Model):
     phone=models.CharField('Telefono de Conatcto', max_length=25)
     email=models.EmailField('Email de Contacto')
     avatar=models.ImageField(upload_to='images/', blank=True, null=True)
+    avatar=models.ImageField(upload_to='profile_images', blank=True, null=True)
     bio = models.TextField(max_length=300)
 
 

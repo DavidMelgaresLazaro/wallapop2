@@ -2,16 +2,18 @@
 
 {% block container %}
 <h1 style="color: black;text-align: center;">⬇Tots els anuncis⬇</h1>
+<link rel="stylesheet" href="style.css">
 <div>
-    <div>
-    {% for anunci in anunci_objects %}
-    <b>{{anunci.titol}}</b>
-    <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
-    <p>{{anunci.user}}</p>
-    <p>{{anunci.data}}</p>
-    <p>{{anunci.descripton}}</p>
-    <p>{{anunci.preu}}</p>
-    </div>
+    
+            {% for anunci in anunci_objects %}
+            <b>{{anunci.titol}}</b> <br>
+            <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
+            <p>Usuari: {{anunci.user}}</p>
+            <p>Data:{{anunci.data}}</p>
+            <p>{{anunci.descripton}}</p>
+            <p>Preu: {{anunci.preu}}€</p>
+        </div>
+    
     {% endfor %} 
 </div>
 {% endblock %}
