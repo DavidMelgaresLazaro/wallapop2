@@ -42,10 +42,10 @@ def get_anunci(request, iden):
 
     comments = Comentari.objects.all().filter(titol = obj)
 
+    comentari_form = ComentariForm(request.POST or None,titol = obj)
+
     if request.user.is_authenticated:
 
-        comentari_form = ComentariForm(request.POST or None,titol = obj)
-        print(comentari_form)
         if comentari_form.is_valid():
             comentari_form.save()
             messages.success(request, 'Anunci penjat')

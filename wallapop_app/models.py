@@ -18,6 +18,7 @@ class Usuari(models.Model):
     name=models.CharField('Nombre', max_length=120)
     adress=models.CharField(max_length=300)
     zip_code=models.CharField('Codigo Postal', max_length=15)
+    email=models.EmailField('email')
     phone=models.CharField('Telefono de Conatcto', max_length=25)
     avatar=models.ImageField(upload_to='profile_images', blank=True, null=True)
     bio = models.TextField(max_length=300)
