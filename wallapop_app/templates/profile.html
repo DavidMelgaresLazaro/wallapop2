@@ -1,17 +1,45 @@
 {% extends "base.html" %}
-{% block content %}
-{% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-{% endif %}
-<div data-role="content" style="padding: 15px">
-    <form action="" method="POST" enctype="multipart/form-data">
+
+{% block title %}Profile Page{% endblock title %}
+{% block container %}
+    <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.avatar.url }} " style="cursor: pointer;"/>
+    </div>
+    {% if user.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.errors }}
-            {{ form.non_field_errors }}
-            {{ form.as_table }}
-        <input type="submit" value="Submit" id="Save">
-    </form>
-</div>
-{% endblock %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Username:</label>
+                            {{ user.username }}
+                        <label class="small mb-1">Email:</label>
+                            {{ user.email }}
+                    </div>
+                    <div class="form-group">
+                        <a href="{% url 'password_change' %}">Change Password</a>
+                        <hr>
+                        <label class="small mb-1">Change Avatar:</label>
+                        {{ profile.avatar }}
+                    </div>
+                    <label class="small mb-1">Bio:</label> {{ profile.bio }}
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+        </form>
+    </div>
+{% endblock container %}

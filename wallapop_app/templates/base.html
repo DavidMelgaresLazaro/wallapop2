@@ -29,8 +29,8 @@
           <div>
           {% block content %}
           {% if user.is_authenticated %}
-          <p style="color : white;">Hi {{ user.username }}!</p>
-          <p><a href="{% url 'profile' %}">Profile</a></p>
+          
+          <a class="navbar-brand" href="{% url 'profile' %}">Hi {{ user.username }}!</a>
           <p><a href="{% url 'logout' %}">Log Out</a></p>
 
           {% else %}

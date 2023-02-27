@@ -7,7 +7,7 @@ from .models import User
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-#from PIL import Image
+from PIL import Image
 
 
 
@@ -43,16 +43,17 @@ class Anunci(models.Model):
     def __str__(self):
         return self.titol + ' , ' + str(self.data) + ' , ' + str(self.name)
 
-@login_required
-class UserEditForm(forms.ModelForm):
-    class Meta:
-        model = Usuari
-        fields = ['user', 'name', 'email', 'avatar']
-        exclude = ()
-        widgets = {
-            'avatar': forms.FileInput(),
-            'bio': forms.Textarea(),
-        }
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+
 
 
 

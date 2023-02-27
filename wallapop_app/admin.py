@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from .models import Anunci
 from .models import Usuari
 from .models import Comentari
+from .models import Profile
 
 
 
@@ -28,6 +29,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(Anunci)
 admin.site.register(Comentari)
+admin.site.register(Profile)
 
 
 

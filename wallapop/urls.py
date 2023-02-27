@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from wallapop_app.views import anunci_view,SignUpView,edit_profile
+from wallapop_app.views import anunci_view,SignUpView,edit_profile,anunci,ChangePasswordView
 
 from django.urls import path
 
@@ -29,7 +29,9 @@ urlpatterns = [
     path('',anunci_view,name=""),#/home
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
-    path('profile', edit_profile, name='users-profile'),
+    path('profile/', edit_profile, name='profile'),
+    path('anunci/',anunci, name='anunci'),
+    path('password-change/', ChangePasswordView.as_view(), name='password-change'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
