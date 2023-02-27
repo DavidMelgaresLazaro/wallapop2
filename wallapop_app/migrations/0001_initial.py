@@ -2,6 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+from django.utils import timezone
 
 
 class Migration(migrations.Migration):
@@ -18,9 +19,10 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('foto', models.ImageField(upload_to='', verbose_name='Imagen')),
                 ('titol', models.CharField(max_length=300, verbose_name='Asunto')),
-                ('data', models.DateTimeField(verbose_name='Fecha Anuncio')),
+                ('data', models.DateTimeField(default=timezone.now)),
                 ('description', models.TextField(blank=True)),
                 ('preu', models.IntegerField(verbose_name='Precio')),
+        
             ],
         ),
         migrations.CreateModel(
@@ -37,7 +39,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Comentari',
             fields=[
-                ('data_com', models.DateField(verbose_name='Fecha Comentario')),
+                ('data_com', models.DateField(default=timezone.now)),
                 ('id', models.IntegerField(primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='wallapop_app.usuari')),
                 ('titol', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='wallapop_app.anunci')),

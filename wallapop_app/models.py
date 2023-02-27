@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 
 class Usuari(models.Model):
@@ -9,21 +11,20 @@ class Usuari(models.Model):
     email=models.EmailField('Email de Contacto')
 
     def __str__(self):
-        return self.name + self.adress +self.zip_code+ self.phone + self.email
+        return self.name + ' , '+self.email
 
 
 class Anunci(models.Model):
     foto = models.ImageField('Imagen')
     titol = models.CharField('Asunto', max_length= 300)
     name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
-    data = models.DateTimeField('Fecha Anuncio')
+    data = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True)
     preu = models.IntegerField('Precio')
     
 
     def __str__(self):
-        return self.foto + self.titol + self.description + self.preu + self.name + self.data
-    
+        return self.titol + ' , ' + self.data
 
 
 
@@ -31,10 +32,10 @@ class Anunci(models.Model):
 class Comentari(models.Model):
     name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
     titol = models.ForeignKey(Anunci,on_delete=models.CASCADE,blank=True,null=True)
-    data_com = models.DateField('Fecha Comentario')
+    data_com = models.DateTimeField('Data',default=timezone.now)
     id = models.IntegerField('ID', primary_key=True)
 
 
 
     def __str__(self):
-        return self.name + self.titol + self.data_com + self.id
+        return self.titol + ' , '+ self.id
