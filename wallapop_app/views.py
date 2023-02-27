@@ -72,25 +72,42 @@ class SignUpView(generic.CreateView):
 
 
 @login_required
-def edit_profile(request):
-    return render(request, 'profile.html')
+def edit_profile(request,username):
+    usuari = get_object_or_404(User, username=username)
+    UserName = Usuari.objects.get(user = usuari)
+    form = UpdateProfileForm(request.POST,request.FILES , instance=UserName)
 
-@login_required
-def profile(request):
     if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            # update the existing `Band` in the database
+            form.save()
+            # redirect to the detail page of the `Band` we just updated
+            # return redirect('profile')
 
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='profile')
-    else:
-        user_form = UpdateUserForm(instance=request.user)
-        profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    context = {
+        'user' : UserName,
+        'name': form,
+        
+    }
+    return render(request, 'profile.html',context)
+
+# @login_required
+# def profile(request):
+#     if request.method == 'POST':
+#         user_form = UpdateUserForm(request.POST, instance=request.user)
+#         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user_form.save()
+#             profile_form.save()
+#             messages.success(request, 'Your profile is updated successfully')
+#             return redirect(to='profile')
+#     else:
+#         user_form = UpdateUserForm(instance=request.user)
+#         profile_form = UpdateProfileForm(instance=request.user.profile)
+
+#     return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
@@ -111,6 +128,21 @@ def afegiranunci(request):
         'anunci' : anunci_form,
     }
     return render(request, 'add_anunci.html',context)
+
+@login_required
+def avatar(request):
+    usuari_form = UpdateProfileForm(request.POST or None,request.FILES,user = request.user)
+    if usuari_form.is_valid():
+        usuari_form.save()
+        messages.success(request, 'Foto cambiada penjat')
+        return redirect('/')
+    else:
+        usuari_form = UpdateProfileForm(user = request.user)
+
+    context = {
+        'avatar_bio' : usuari_form,
+    }
+    return render(request, 'avatar.html',context)
 
 def veureperfil(request,name):
     user = get_object_or_404(User, username=name)

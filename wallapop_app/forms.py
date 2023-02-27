@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 
 from django.contrib.auth.models import User
-from .models import Profile,Anunci,Comentari
+from .models import Profile,Anunci,Comentari,Usuari
 
 
 
@@ -19,11 +19,16 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class UpdateProfileForm(forms.ModelForm):
-    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
-    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
-
+    name=forms.CharField(widget=forms.Textarea,help_text="Name")
+    adress=forms.CharField(widget=forms.Textarea,help_text="Adress")
+    zip_code=forms.CharField(widget=forms.Textarea,help_text="zip")
+    email=forms.CharField(widget=forms.Textarea,help_text="email")
+    phone=forms.CharField(widget=forms.Textarea,help_text="phone")
+    avatar=forms.ImageField(widget=forms.FileInput,help_text="avatar")
+    bio = forms.CharField(widget=forms.Textarea,help_text="bio")
     class Meta:
-        model = Profile
+        model = Usuari
+        exclude = ["user"]
         fields = ['avatar', 'bio']
 
 
