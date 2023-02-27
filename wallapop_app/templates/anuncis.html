@@ -5,7 +5,7 @@
 <div>
     <div>
     {% for anunci in anunci_objects %}
-    <img src="/images/{{anunci.foto}}">
+    <img src="{{ MEDIA_URL }}{{anunci.foto}}">
     <b>{{anunci.titol}}</b>
     <p>{{anunci.user}}</p>
     <p>{{anunci.data}}</p>
