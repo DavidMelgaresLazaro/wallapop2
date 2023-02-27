@@ -6,7 +6,7 @@ from .models import Anunci
 
 
 def anunci_view(request):
-    anunci = Post.objects.all()
+    anunci = Anunci.objects.all()
     context = {
         'anunci_objects' : anunci,
     }
