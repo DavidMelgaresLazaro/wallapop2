@@ -81,7 +81,7 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 @login_required
 def newad(request):
-    
+    name = request.name
     anunci_form = PostAnunciForm(request.POST or None)
     if anunci_form.is_valid():
         anunci_form.save()
