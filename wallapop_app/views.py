@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
@@ -30,12 +30,17 @@ def anunci_view(request):
     }
    return render(request, 'anuncis.html', context)
 
-def anunci(request):
-   anunci = request
-   context = {
-        'anunci_object' : anunci,
+def get_anunci(request, name):
+    # try:
+    #    obj = Post.objects.get(id=postid)
+    # except Post.DoesNotExist:
+    #    raise Http404
+    obj = get_object_or_404(Anunci, id=name)
+
+    context = {
+        'post' : obj,
     }
-   return render(request, 'anunci.html', context)
+    return render(request, 'anunci-details.html', context)
 
 
 

@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django import forms
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 from .models import User
 
@@ -42,6 +43,9 @@ class Anunci(models.Model):
 
     def __str__(self):
         return self.titol + ' , ' + str(self.data) + ' , ' + str(self.name)
+    
+    def get_absolute_url(self):
+        return reverse('anunci-details', kwargs={'name':self.id})
 
 
 

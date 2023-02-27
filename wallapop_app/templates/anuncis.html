@@ -6,7 +6,7 @@
     <div>
     {% for anunci in anunci_objects %}
     <b>{{anunci.titol}}</b>
-    <a href="{% url 'anunci' %}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
+    <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
     <p>{{anunci.user}}</p>
     <p>{{anunci.data}}</p>
     <p>{{anunci.descripton}}</p>
