@@ -81,15 +81,15 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 @login_required
 def afegiranunci(request):
-    anunci_form = AnunciForm(request.POST or None,request.FILES)
+    anunci_form = AnunciForm(request.POST or None,request.FILES)#,user = request.user)
     print(anunci_form.errors)
     if anunci_form.is_valid():
-        anunci_form.user = request.user
+        anunci_form.name = Usuari.get_name(request.user)
         anunci_form.save()
         messages.success(request, 'Anunci penjat')
         return redirect('/')
     else:
-        anunci_form = AnunciForm()
+        anunci_form = AnunciForm()#,user = request.user)
 
     context = {
         'anunci' : anunci_form,

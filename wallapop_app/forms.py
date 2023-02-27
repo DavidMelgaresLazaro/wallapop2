@@ -32,10 +32,9 @@ class AnunciForm(forms.ModelForm):
     titol = forms.CharField(widget=forms.Textarea,help_text="Titol")
     description = forms.Textarea()
     preu = forms.IntegerField(widget=forms.Textarea,help_text="Preu")
-    # def __init__(self, user, *args, **kwargs):
+    # def __init__(self, *args, **kwargs):
+    #     self.name = kwargs.pop('user')
     #     super(AnunciForm, self).__init__(*args, **kwargs)
-    #     self.user = user
-    #     self.name = forms.CharField(self.user)
     class Meta:
         model = Anunci
         exclude = ["name","data"]
@@ -45,6 +44,13 @@ class AnunciForm(forms.ModelForm):
             'description',
             'preu',
         ]
+    # def save(self, commit=True):
+    #     inst = super(AnunciForm, self).save(commit=False)
+    #     inst.name = self.name
+    #     if commit:
+    #         inst.save()
+    #         self.save_m2m()
+    #     return inst
     # def clean_image(self):
     #     foto = self.cleaned_data.get('foto')
     #     if not foto:
@@ -61,8 +67,5 @@ class AnunciForm(forms.ModelForm):
     #         foto.file = type(foto.file)()
     #         i.save(foto.file, fmt)
     #     return foto
-    # def errors(self):
-    #     print(self.errors)
-    #     print(self.non_field_errors)
     
         
