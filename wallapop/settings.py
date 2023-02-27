@@ -107,7 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/users/%s/" % u.username,
+}
 MEDIA_ROOT = '/path/to/myproject/media/'
 MEDIA_URL = '/media/'
 # Internationalization

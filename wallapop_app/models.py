@@ -12,6 +12,7 @@ from .models import User
 
 
 
+
 class Usuari(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name=models.CharField('Nombre', max_length=120)
@@ -30,6 +31,7 @@ class Usuari(models.Model):
 
     def get_absolute_url(self):
         return reverse('profile_view', kwargs={'user':self.id})
+    
 
 
 
@@ -46,9 +48,12 @@ class Anunci(models.Model):
         return self.titol + ' , ' + str(self.data) + ' , ' + str(self.name)
     
     def get_absolute_url(self):
-        return reverse('anunci-details', kwargs={'name':self.id})
-    def create_from_dict(cls, d):
-        return cls.objects.create()
+        return reverse('anunci-details', kwargs={'iden':self.id})
+    
+    def toString(self,do):
+        str1 = str(self.name)
+        str1 = str1 + do
+        return str1[:-1]
     
 
 
@@ -81,3 +86,5 @@ class Comentari(models.Model):
 
     def __str__(self):
         return str(self.titol) + ' , '+ str(self.id)
+    
+

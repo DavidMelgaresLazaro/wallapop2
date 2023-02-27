@@ -10,7 +10,8 @@ from .models import Anunci
 from .models import Usuari
 from .models import Comentari
 
-from django.contrib.auth import get_user
+from django.contrib.auth.models import User
+
 
 from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm
 
@@ -32,12 +33,12 @@ def anunci_view(request):
     }
    return render(request, 'anuncis.html', context)
 
-def get_anunci(request, name):
+def get_anunci(request, iden):
     # try:
     #    obj = Post.objects.get(id=postid)
     # except Post.DoesNotExist:
     #    raise Http404
-    obj = get_object_or_404(Anunci, id=name)
+    obj = get_object_or_404(Anunci, id=iden)
 
     
     context = {
@@ -95,5 +96,30 @@ def afegiranunci(request):
         'anunci' : anunci_form,
     }
     return render(request, 'add_anunci.html',context)
+
+def veureperfil(request,name):
+    usuari = get_object_or_404(User, username=name)
+
+    # Joan Jaume:Would like to acces our One to One Usuari model, but as usuari beeing an instance
+    #we cannot do that. As well we tried to achive doing that by filtering our query and retrive
+    #our Usuari model to display all of their things like bio, but that ain't the right way.
+
+    anuncis = Anunci.objects.all()
+    # anuncis1 = None
+    # for anunci in anuncis:
+    #     str = anunci.toString("d")
+    #     if str == name:
+    #         if anuncis1 == None:
+    #             anuncis1 = anunci | anunci
+    #         else:
+    #             anuncis1 = anuncis1 |  anunci
+            
+    
+
+    context = {
+        'user' : usuari,
+        'anuncis' : anuncis,
+    }
+    return render(request, 'profile_view.html', context)
 
 
