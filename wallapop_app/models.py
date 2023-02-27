@@ -30,15 +30,13 @@ class Usuari(models.Model):
 
     def get_absolute_url(self):
         return reverse('profile_view', kwargs={'user':self.id})
-    def get_name(self):
-        return self.user
 
 
 
 class Anunci(models.Model):
     foto = models.ImageField('Imagen')
     titol = models.CharField('Asunto', max_length= 300)
-    name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
+    name = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     data = models.DateTimeField(default=timezone.now)
     description = models.TextField(blank=True,max_length=300)
     preu = models.IntegerField('Precio')
@@ -49,6 +47,8 @@ class Anunci(models.Model):
     
     def get_absolute_url(self):
         return reverse('anunci-details', kwargs={'name':self.id})
+    def create_from_dict(cls, d):
+        return cls.objects.create()
     
 
 
