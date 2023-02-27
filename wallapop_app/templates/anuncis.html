@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-<<<<<<< HEAD
-<div>
-    <h1 style="color:black">Hello World!</h1>
-</div>
-=======
 
-{% block conetent %}
-    <h1></h1>
+{% block container %}
+<h1 style="color: black;text-align: center;">⬇Tots els anuncis⬇</h1>
+<div>
+    <div>
+    {% for anunci in anunci_objects %}
+    <img src="/images/{{anunci.foto}}">
+    <b>{{anunci.titol}}</b>
+    <p>{{anunci.name}}</p>
+    <p>{{anunci.data}}</p>
+    <p>{{anunci.descripton}}</p>
+    <p>{{anunci.preu}}</p>
+    </div>
+    {% endfor %} 
+</div>
 {% endblock %}
->>>>>>> 1330bbaf2403090c997bf48ebdfce4d34c0e90ee
+
+
