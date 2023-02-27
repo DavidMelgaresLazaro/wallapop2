@@ -10,7 +10,7 @@ from .models import Anunci
 from .models import Usuari
 from .models import Comentari
 
-from .forms import UpdateUserForm, UpdateProfileForm
+from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm,PostAnunciForm
 
 
 from django.shortcuts import render, redirect
@@ -77,3 +77,21 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
+
+@login_required
+def newad(request):
+    user = request.user
+    anunci = AnunciForm(request.user)
+    if request.method == 'POST':
+
+        if AnunciForm.is_valid():
+            anunci.save()
+            messages.success(request, 'Anunci pujat!')
+            return redirect(to='anunci-details')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+    context = {
+        'anunci_form' : anunci,
+    }
+
+    return render(request, 'newad.html', context)

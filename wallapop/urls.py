@@ -17,7 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView
+from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,newad
 
 from django.urls import path
 
@@ -32,6 +32,7 @@ urlpatterns = [
     path('profile/', edit_profile, name='profile'),
     path('anunci-details/<int:name>/', get_anunci, name='anunci-details'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
+    path('newad/',newad ,name='newad')
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

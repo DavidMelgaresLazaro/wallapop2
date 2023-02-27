@@ -22,11 +22,24 @@
             
            
           </ul>
+          <div>
+            {% block penjar-anunci %}
+            {% if user.is_authenticated %}
+            Hi {{ user.username }}!
+            <p><a href="{% url 'newad' %}">Penjar un Aunci nou com a {{ user.username }}</a></p>
+            {% else %}
+            <p><a href="{% url 'login' %}">Per a penjar anuncis has de iniciar sessió</a></p>
+            {% endif %}
+            {% endblock %}
+
+          </div>
           <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
           <div>
+
+
           {% block content %}
           {% if user.is_authenticated %}
           
