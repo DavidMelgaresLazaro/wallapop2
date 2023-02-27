@@ -24,7 +24,7 @@ class Anunci(models.Model):
     
 
     def __str__(self):
-        return self.titol + ' , ' + self.data
+        return self.titol + ' , ' + str(self.data) + ' , ' + str(self.name)
 
 
 
@@ -32,10 +32,11 @@ class Anunci(models.Model):
 class Comentari(models.Model):
     name = models.ForeignKey(Usuari,on_delete=models.CASCADE,blank=True,null=True)
     titol = models.ForeignKey(Anunci,on_delete=models.CASCADE,blank=True,null=True)
-    data_com = models.DateTimeField('Data',default=timezone.now)
+    data_com = models.DateTimeField(default=timezone.now)
+    description = models.TextField(blank=True)
     id = models.IntegerField('ID', primary_key=True)
 
 
 
     def __str__(self):
-        return self.titol + ' , '+ self.id
+        return str(self.titol) + ' , '+ str(self.id)
