@@ -19,5 +19,5 @@ from wallapop_app.views import anunci_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',anunci_view),#/home
+    path('',anunci_view,name=""),#/home
 ]
