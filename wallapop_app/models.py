@@ -1,9 +1,13 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+
+
 
 
 
 class Usuari(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name=models.CharField('Nombre', max_length=120)
     adress=models.CharField(max_length=300)
     zip_code=models.CharField('Codigo Postal', max_length=15)
@@ -11,7 +15,7 @@ class Usuari(models.Model):
     email=models.EmailField('Email de Contacto')
 
     def __str__(self):
-        return self.name + ' , '+self.email
+       return self.name + ' , '+self.email
 
 
 class Anunci(models.Model):
