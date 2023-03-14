@@ -13,6 +13,7 @@ from .models import Comentari
 
 
 
+
 class UsuariInline(admin.StackedInline):
     model = Usuari
     can_delete = False
