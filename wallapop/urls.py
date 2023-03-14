@@ -17,12 +17,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from wallapop_app.views import anunci_view,SignUpView
+from wallapop_app.views import anunci_view,SignUpView,edit_profile
+
+from django.urls import path
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',anunci_view,name=""),#/home
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
-    
+    path('profile', edit_profile, name='users-profile'),
+
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
