@@ -18,6 +18,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView
+<<<<<<< HEAD
+=======
+from django.conf.urls.static import static
+>>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
 
 from django.urls import path
 
@@ -35,3 +39,9 @@ urlpatterns = [
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+<<<<<<< HEAD
+=======
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+>>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
