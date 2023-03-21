@@ -17,11 +17,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView
-<<<<<<< HEAD
-=======
-from django.conf.urls.static import static
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
+from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,look_profile
+
+
+
 
 from django.urls import path
 
@@ -34,14 +33,9 @@ urlpatterns = [
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
     path('profile/', edit_profile, name='profile'),
+    path('profile/<int:user>/',look_profile, name='profile_view'),
     path('anunci-details/<int:name>/', get_anunci, name='anunci-details'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-<<<<<<< HEAD
-=======
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)

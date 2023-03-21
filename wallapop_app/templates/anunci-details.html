@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 {% extends 'base.html' %}
 
 <html>
@@ -10,24 +10,3 @@
 </body>
 {% endblock container%}
 </html>
-=======
-{% extends 'anunci.html' %}
-
-{% block container %}
-<h1 style="color: black;text-align: center;">⬇Tots els anuncis⬇</h1>
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
-<div>
-    
-            {% for anunci in anunci_objects %}
-            <b>{{anunci.titol}}</b> <br>
-            <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
-            <p>{{anunci.user}}</p>
-            <p>{{anunci.data}}</p>
-            <p>{{anunci.descripton}}</p>
-            <p>{{anunci.preu}}</p>
-        </div>
-    
-    {% endfor %} 
-</div>
-{% endblock %}
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)

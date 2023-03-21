@@ -8,10 +8,10 @@
             {% for anunci in anunci_objects %}
             <b>{{anunci.titol}}</b> <br>
             <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
-            <p>Usuari: {{anunci.user}}</p>
-            <p>Data:{{anunci.data}}</p>
+            <p><b>Usuari:</b><a href="{{anunci.name.get_absolute_url }}"> {{anunci.name}}</p></a>
+            <p><b>Data:</b>{{anunci.data}}</p>
             <p>{{anunci.descripton}}</p>
-            <p>Preu: {{anunci.preu}}€</p>
+            <p><b>Preu:</b> {{anunci.preu}}€</p>
         </div>
     
     {% endfor %} 

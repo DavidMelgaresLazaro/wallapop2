@@ -36,15 +36,14 @@ def get_anunci(request, name):
     # except Post.DoesNotExist:
     #    raise Http404
     obj = get_object_or_404(Anunci, id=name)
-<<<<<<< HEAD
+
     
-    context = {
-        'anunci' : obj,
-=======
+  
+
 
     context = {
         'post' : obj,
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
+
     }
     return render(request, 'anunci-details.html', context)
 
@@ -83,3 +82,6 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
+
+def look_profile(request, user):
+    return render(request, 'profile_view.html')

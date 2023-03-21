@@ -22,17 +22,17 @@ class Usuari(models.Model):
     zip_code=models.CharField('Codigo Postal', max_length=15)
     phone=models.CharField('Telefono de Conatcto', max_length=25)
     email=models.EmailField('Email de Contacto')
-<<<<<<< HEAD
-    avatar=models.ImageField(upload_to='images/', blank=True, null=True)
-=======
+
     avatar=models.ImageField(upload_to='profile_images', blank=True, null=True)
->>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
+
     bio = models.TextField(max_length=300)
 
 
     def __str__(self):
        return self.name + ' , '+self.email
 
+    def get_absolute_url(self):
+        return reverse('profile_view', kwargs={'user':self.id})
 
 
 
@@ -61,6 +61,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    
+
 
 
 
