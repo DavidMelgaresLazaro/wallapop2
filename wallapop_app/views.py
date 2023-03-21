@@ -10,7 +10,7 @@ from .models import Anunci
 from .models import Usuari
 from .models import Comentari
 
-from .forms import UpdateUserForm, UpdateProfileForm
+from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm,PostAnunciForm
 
 
 from django.shortcuts import render, redirect
@@ -38,12 +38,13 @@ def get_anunci(request, name):
     obj = get_object_or_404(Anunci, id=name)
 
     
-  
-
+    context = {
+        'anunci' : obj,
+=======
 
     context = {
         'post' : obj,
-
+>>>>>>> 2049eb3 (Merge branch 'master' of https://github.com/emuajj/wallapop)
     }
     return render(request, 'anunci-details.html', context)
 
@@ -82,6 +83,3 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = reverse_lazy('users-home')
-
-def look_profile(request, user):
-    return render(request, 'profile_view.html')
