@@ -1,9 +1,19 @@
+from django.http import Http404
 from django.shortcuts import render,get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordChangeView
+
+#framework
+from django.http import Http404
+from rest_framework import viewsets, permissions, status
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+from .serializers import AnunciSerializer
 
 
 from .models import Anunci
@@ -26,40 +36,74 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-def anunci_view(request):
-   anunci = Anunci.objects.all()
-   context = {
-        'anunci_objects' : anunci,
-    }
-   return render(request, 'anuncis.html', context)
 
-def get_anunci(request, iden):
-    # try:
-    #    obj = Post.objects.get(id=postid)
-    # except Post.DoesNotExist:
-    #    raise Http404
-    obj = get_object_or_404(Anunci, id=iden)
+class AnunciViewSet(viewsets.ModelViewSet):
+    queryset = Anunci.objects.all()
+    serializer_class = AnunciSerializer
+    permission_classes = [permissions.AllowAny]
 
-    comments = Comentari.objects.all().filter(titol = obj)
+class AnunciView_CLS(APIView):
+    def get(self, request, the_post):
+        try:
+            post = Anunci.objects.get(pk=the_post)
+        except:
+            raise Http404
+        serial = AnunciSerializer(post, context={'request':request})
+        return Response(serial.data)
 
-    comentari_form = ComentariForm(request.POST or None,titol = obj)
+@api_view(['GET', 'DELETE'])
+def PostView_FN(request, the_anunci):
+    try:
+        post = Anunci.objects.get(pk=the_anunci)
+    except Anunci.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.user.is_authenticated:
+    if request.method == 'GET':
+        serializedpost = AnunciSerializer(post, context={'request':request})
+        return Response(data=serializedpost.data, status=status.HTTP_200_OK)
 
-        if comentari_form.is_valid():
-            comentari_form.save()
-            messages.success(request, 'Anunci penjat')
-        #else:
-        # comentari_form = ComentariForm()
+    if request.method == 'DELETE':
+        post.delete()
+        return Response(status=status.HTTP_200_OK)
+
+def index(request):
+    return render(request, 'index.html')
+
+
+# def anunci_view(request):
+#    anunci = Anunci.objects.all()
+#    context = {
+#         'anunci_objects' : anunci,
+#     }
+#    return render(request, 'anuncis.html', context)
+
+# def get_anunci(request, iden):
+#     # try:
+#     #    obj = Post.objects.get(id=postid)
+#     # except Post.DoesNotExist:
+#     #    raise Http404
+#     obj = get_object_or_404(Anunci, id=iden)
+
+#     comments = Comentari.objects.all().filter(titol = obj)
+
+#     comentari_form = ComentariForm(request.POST or None,titol = obj)
+
+#     if request.user.is_authenticated:
+
+#         if comentari_form.is_valid():
+#             comentari_form.save()
+#             messages.success(request, 'Anunci penjat')
+#         #else:
+#         # comentari_form = ComentariForm()
 
 
     
-    context = {
-        'anunci' : obj,
-        'comments' : comments,
-        'comentari' : comentari_form,
-    }
-    return render(request, 'anunci-details.html', context)
+#     context = {
+#         'anunci' : obj,
+#         'comments' : comments,
+#         'comentari' : comentari_form,
+#     }
+#     return render(request, 'anunci-details.html', context)
 
 
 

@@ -18,26 +18,26 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.models import User
-from wallapop_app.views import anunci_view,SignUpView,edit_profile,get_anunci,ChangePasswordView,afegiranunci,veureperfil,afegiranunci
+from wallapop_app.views import SignUpView,edit_profile,ChangePasswordView,afegiranunci,veureperfil,afegiranunci
 
 from rest_framework import routers
-from poster import views
+from wallapop_app import views
 
 from django.urls import path
 
 
 
 router = routers.DefaultRouter()
-router.register(r'anuncis', views.PostViewSet)
+router.register(r'anuncis', views.AnunciViewSet)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',anunci_view,name=""),#/home
+    path('' , include(router.urls)),#/home
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
     path('profile/<str:username>/', edit_profile, name='profile'),
-    path('anunci-details/<int:iden>/', get_anunci, name='anunci-details'),
+    # path('anunci-details/<int:iden>/', get_anunci, name='anunci-details'),
     path('users/<str:name>/', veureperfil, name='users'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
     path('add_anunci/', afegiranunci ,name='add_anunci'),
