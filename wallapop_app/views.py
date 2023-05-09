@@ -43,31 +43,31 @@ class AnunciViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 class AnunciView_CLS(APIView):
-    def get(self, request, the_post):
+    def get(self, request, the_anunci):
         try:
-            post = Anunci.objects.get(pk=the_post)
+            anunci = Anunci.objects.get(pk=the_anunci)
         except:
             raise Http404
-        serial = AnunciSerializer(post, context={'request':request})
+        serial = AnunciSerializer(anunci, context={'request':request})
         return Response(serial.data)
 
 @api_view(['GET', 'DELETE'])
-def PostView_FN(request, the_anunci):
+def AnunciView_FN(request, the_anunci):
     try:
-        post = Anunci.objects.get(pk=the_anunci)
+        anunci = Anunci.objects.get(pk=the_anunci)
     except Anunci.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializedpost = AnunciSerializer(post, context={'request':request})
-        return Response(data=serializedpost.data, status=status.HTTP_200_OK)
+        serializedanunci = AnunciSerializer(anunci, context={'request':request})
+        return Response(data=serializedanunci.data, status=status.HTTP_200_OK)
 
     if request.method == 'DELETE':
-        post.delete()
+        anunci.delete()
         return Response(status=status.HTTP_200_OK)
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'anuncis.html')
 
 
 # def anunci_view(request):
