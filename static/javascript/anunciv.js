@@ -21,6 +21,7 @@ const dataContainer = document.getElementById('anuncis-list');
                 data.forEach(anunci => {
                     const item = document.createElement('div');
                     item.innerHTML = `
+                        <div>
                         <img src="${anunci.foto}" width="500" height="300"></a>
                         <h2>${anunci.titol}</h2>
                         <p>Posted by: ${anunci.name.username}</p>
@@ -28,6 +29,7 @@ const dataContainer = document.getElementById('anuncis-list');
                         <p>Description: ${anunci.description}</p>
                         <p>Price: $${anunci.preu}</p>
                         <hr>
+                        </div>
                     `;
                     dataContainer.appendChild(item);
                 });
