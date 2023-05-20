@@ -29,6 +29,8 @@ from django.urls import path
 
 router = routers.DefaultRouter()
 router.register(r'anuncis', views.AnunciViewSet)
+router.register(r'usuaris', views.UsuariViewSet)
+router.register(r'usuaris_view')
 
 
 urlpatterns = [
@@ -39,12 +41,13 @@ urlpatterns = [
     path('anuncis/<int:pk>/', views.AnunciView_FN),
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
-    path('profile/<str:username>/', edit_profile, name='profile'),
+    path('profile/<str:username>/', edit_profile, name='edit_profile'),
     # path('anunci-details/<int:iden>/', get_anunci, name='anunci-details'),
     path('users/<str:name>/', veureperfil, name='users'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
     path('add_anunci/', afegiranunci ,name='add_anunci'),
 
+    path('router/',include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
 
 
