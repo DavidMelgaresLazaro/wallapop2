@@ -52,6 +52,8 @@ class Anunci(models.Model):
         str1 = str(self.name)
         str1 = str1 + do
         return str1[:-1]
+    def get_user(self):
+        return self.name.username
     
 
 

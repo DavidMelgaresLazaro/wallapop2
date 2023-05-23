@@ -1,40 +1,14 @@
 
-{% extends 'base.html' %}
-
+{% load static %}
 <html>
-{% block container %}
-<body>
-    <h1 style="color: black;text-align: center;">{{ anunci.titol }}</h1>
-    <a><img src="{{ MEDIA_URL }}{{ anunci.foto }}" width="500" height="300"></a>
-    <p><b>Usuari:</b><a href="{{ anunci.name.get_absolute_url }}"> {{anunci.name}}</p></a>
-    <p><b>Data:</b>{{anunci.data}}</p>
-    <p>{{anunci.descripton}}</p>
-    <p><b>Preu:</b> {{anunci.preu}}€</p>
-
-    <h1 style="color: black;">Comentaris:</h1>
-    
-    {% for coment in comments %}
-    <p style="color: black;">En {{coment.name}} ha dit:</p>
-    <p>{{coment.description}}</p>
-    <p>el {{coment.data_com}}</p>
-    <p>---------------</p>
-    {% endfor %} 
-
-    
-    {% if user.is_authenticated %}
-          
-    <a>Comment as {{ user.username }}</a>
-    <div>
-      <form method="post" class="comentari-form" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ comentari.as_p }}
-      <button type="submit">Afegir</button>
-      </form>
-      </div>
-    {% else %}
-    <p><a href="{% url 'login' %}">Per a penjar comentaris has de iniciar sessió</a></p>
-    {% endif %}
-    
-</body>
-{% endblock container%}
+  <body>
+    <script>
+      let ad = "{{ ad_id }}";
+    </script>
+    <ul id="anunci">
+    </ul>
+    <script src="{% static 'javascript/anunci-details.js' %}"></script>
+  </body>
 </html>
+
+

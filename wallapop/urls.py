@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.models import User
-from wallapop_app.views import SignUpView,edit_profile,ChangePasswordView,afegiranunci,veureperfil,afegiranunci,index,AnunciView_FN
+from wallapop_app.views import SignUpView,edit_profile,ChangePasswordView,afegiranunci,veureperfil,afegiranunci,index,index_details
 
 from rest_framework import routers
 from wallapop_app import views
@@ -38,7 +38,8 @@ urlpatterns = [
     # path('' , index ,name="anuncis"),#/home
     path('api/',include(router.urls)),
     path('',index,name="anuncis"),
-    path('api/anuncis/<int:pk>/', views.AnunciView_FN),
+    path('api/anuncis/<int:pk>/', include(router.urls)),
+    path('anuncis/<int:pk>/',index_details,name="anunci-details"),
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
     path('profile/<str:username>/', edit_profile, name='edit_profile'),
