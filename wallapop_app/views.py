@@ -17,8 +17,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import AnunciSerializer
-from .serializers import UsuariSerializer
+from .serializers import AnunciSerializer,UsuariSerializer,ComentariSerializer
 
 
 from .models import Anunci
@@ -40,7 +39,18 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
+class ComentariViewSet(viewsets.ModelViewSet):
+    queryset = Comentari.objects.all()
+    serializer_class = ComentariSerializer
+    permission_classes = [permissions.AllowAny]
+    basename = 'comentari'
+    def get_queryset(self):
+        print("paso")
+        queryset = Comentari.objects.all()
+        anunci_id = self.kwargs.get('anunci_id') 
+        if anunci_id is not None:
+            queryset = queryset.filter(titol=anunci_id)
+        return queryset
 
 class AnunciViewSet(viewsets.ModelViewSet):
     queryset = Anunci.objects.all()
@@ -50,11 +60,16 @@ class AnunciViewSet(viewsets.ModelViewSet):
 class AnunciView_CLS(APIView):
     def get(self, request, the_anunci):
         try:
-            anunci = Anunci.objects.get(pk=the_anunci)
+            anunci_serializer = Anunci.objects.get(the_anunci, context={'request': request})
+            comments = Comentari.objects.filter(titol=the_anunci)
+            comments_serializer = ComentariSerializer(comments, many=True)
         except:
             raise Http404
-        serial = AnunciSerializer(anunci, context={'request':request})
-        return Response(serial.data)
+        data = {
+            'anunci': anunci_serializer.data,
+            'comments': comments_serializer.data
+        }
+        return Response(data=data, status=status.HTTP_200_OK)
 
 @api_view(['GET', 'DELETE'])
 def AnunciView_FN(request, the_anunci):
@@ -194,22 +209,22 @@ def edit_profile(request,username):
     }
     return render(request, 'profile.html',context)
 
-# @login_required
-# def profile(request):
-#     if request.method == 'POST':
-#         user_form = UpdateUserForm(request.POST, instance=request.user)
-#         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user_form.save()
-#             profile_form.save()
-#             messages.success(request, 'Your profile is updated successfully')
-#             return redirect(to='profile')
-#     else:
-#         user_form = UpdateUserForm(instance=request.user)
-#         profile_form = UpdateProfileForm(instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
 
-#     return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
@@ -260,6 +275,7 @@ def veureperfil(request,name):
         'usuari' : usuari,
     }
     return render(request, 'profile_view.html', context)
+
 
     
 

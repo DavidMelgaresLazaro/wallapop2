@@ -29,7 +29,7 @@ from django.urls import path
 
 router = routers.DefaultRouter()
 router.register(r'anuncis', views.AnunciViewSet)
-# router.register(r'usuaris', views.UsuariViewSet)
+router.register(r'comentaris', views.ComentariViewSet)
 # router.register(r'usuaris_view')
 
 
@@ -39,10 +39,12 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('',index,name="anuncis"),
     path('api/anunci/<int:the_anunci>/', include(router.urls)),
+    path('api/comentaris/<int:the_comentari>/', include(router.urls)),
     path('anuncis/<int:pk>/',index_details,name="anunci-details"),
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
     path('profile/<str:username>/', edit_profile, name='edit_profile'),
+    path('profile/<str:username>/', edit_profile, name='profile'),
     # path('anunci-details/<int:iden>/', get_anunci, name='anunci-details'),
     path('users/<str:name>/', veureperfil, name='users'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
