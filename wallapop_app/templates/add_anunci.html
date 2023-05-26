@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
-
-
+{% load static %}
 {% block container %}
 <div>
-    <h1 style="color: black;text-align: center;">Afegir Anunci</h1>
-    <form method="post" class="post-form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ anunci.as_p }}
+    <script>
+        var currentUser ="{{ request.user.username }}";
+        console.log(currentUser);
+    </script>
+    <h1 style="color: black; text-align: center;">Afegir Anunci</h1>
+    <form method="post" id="post-form" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="titol" placeholder="Titol" required>
+    <textarea name="description" placeholder="Descripció" required></textarea>
+    <input type="number" name="preu" placeholder="Preu" required>
+    <input type="file" name="foto" accept="image/*" required>
     <button type="submit">Afegir</button>
-    </form>
+  </form>
+  <script src="{% static 'javascript/add-anunci.js' %}"></script>
 </div>
-{% endblock %}
+{% endblock container %}

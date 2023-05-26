@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block container %}
 <html>
   <body>
     <script>
@@ -7,8 +8,23 @@
     </script>
     <div id="anunci">
     </div>
+    <div id="afegir-comentari">
+      <a>Escriu un comentari com a {{ request.user.username }}!</a> 
+      <script>
+        var currentUser ="{{ request.user.username }}";
+        var currentAnunci = "{{ ad_id }}"
+        console.log(currentUser);
+        </script>
+        <form method="post" id="post-form-comentari" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="description" placeholder="Descripció" required></textarea>
+        <button type="submit">Afegir</button>
+      </form>
+      <script src="{% static 'javascript/add-comment.js' %}"></script>
+    </div>
     <script src="{% static 'javascript/anunci-details.js' %}"></script>
   </body>
 </html>
+{% endblock container %}
 
 

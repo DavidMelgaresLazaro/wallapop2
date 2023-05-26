@@ -9,6 +9,15 @@ class AnunciSerializer(serializers.ModelSerializer):
         model = Anunci
         fields = ['url', 'id' ,'foto', 'titol', 'name', 'data', 'description', 'preu']
 
+    def create(self, validated_data):
+        # Perform additional actions before saving the data, if needed
+        # For example, you can associate the data with the current user
+
+        print(validated_data)
+
+        # Save the data
+        return super().create(validated_data)
+
 class UsuariSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuari
