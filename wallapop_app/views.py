@@ -76,6 +76,10 @@ def AnunciView_FN(request, the_anunci):
 
 def index(request):
     return render(request, 'anuncis.html')
+def index_details(request,pk):
+    ctx = {'ad_id':pk}
+    return render(request, 'anunci-details.html',context=ctx)
+
 
 
 # def anunci_view(request):
