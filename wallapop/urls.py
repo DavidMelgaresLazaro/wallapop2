@@ -18,19 +18,23 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.models import User
-from wallapop_app.views import SignUpView,edit_profile,ChangePasswordView,afegiranunci,veureperfil,afegiranunci,index,AnunciView_FN
+from wallapop_app.views import SignUpView,edit_profile,ChangePasswordView,afegiranunci,profile,afegiranunci,index,AnunciView_FN
 
 from rest_framework import routers
 from wallapop_app import views
 
+from rest_framework.authtoken import views as viewstoken 
+
 from django.urls import path
+
+from wallapop_app import views as views2
+
 
 
 
 router = routers.DefaultRouter()
 router.register(r'anuncis', views.AnunciViewSet)
-# router.register(r'usuaris', views.UsuariViewSet)
-# router.register(r'usuaris_view')
+router.register(r'usuaris', views.UsuariViewSet)
 
 
 urlpatterns = [
@@ -38,14 +42,16 @@ urlpatterns = [
     # path('' , index ,name="anuncis"),#/home
     path('api/',include(router.urls)),
     path('',index,name="anuncis"),
-    path('api/anuncis/<int:pk>/', views.AnunciView_FN),
+    path('api/anuncis/<int:pk>/', views2.AnunciView_FN),
+    path('api/profile/<str:username>/', views2.AnunciView_FN),
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
-    path('profile/<str:username>/', edit_profile, name='edit_profile'),
+    path('profile/<str:username>/', edit_profile, name='profile'),
     # path('anunci-details/<int:iden>/', get_anunci, name='anunci-details'),
-    path('users/<str:name>/', veureperfil, name='users'),
+    path('users/<str:name>/', profile, name='usuaris'),
     path('password-change/', ChangePasswordView.as_view(), name='password-change'),
     path('add_anunci/', afegiranunci ,name='add_anunci'),
+    path('api-token-auth/', viewstoken.obtain_auth_token),
 
     path('router/',include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),

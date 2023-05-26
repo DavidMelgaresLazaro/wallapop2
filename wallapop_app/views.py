@@ -16,6 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 
 from .serializers import AnunciSerializer
 from .serializers import UsuariSerializer
@@ -34,6 +35,8 @@ from .forms import UpdateUserForm, UpdateProfileForm,AnunciForm,ComentariForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
+
 
 
 
@@ -140,7 +143,8 @@ def edit_profile(request, username):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
-    
+def profile(request):
+    return render(request, 'profile.html')
 
 
 
@@ -169,26 +173,6 @@ class SignUpView(generic.CreateView):
 
 
 
-@login_required
-def edit_profile(request,username):
-    usuari = get_object_or_404(User, username=username)
-    UserName = Usuari.objects.get(user = usuari)
-    form = UpdateProfileForm(request.POST,request.FILES , instance=UserName)
-
-    if request.method == 'POST':
-        if form.is_valid():
-            # update the existing `Band` in the database
-            form.save()
-            # redirect to the detail page of the `Band` we just updated
-            # return redirect('profile')
-
-
-    context = {
-        'user' : UserName,
-        'name': form,
-        
-    }
-    return render(request, 'profile.html',context)
 
 # @login_required
 # def profile(request):

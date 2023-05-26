@@ -1,33 +1,20 @@
 {% extends "base.html" %}
 
 {% block container %}
-        <img class="rounded-circle account-img" src="{{ MEDIA_URL }}{{ user.avatar }} " width="150" height="150" alt="InternetCtrl" style="cursor: pointer;"  />
-        
-    <div class="form-content">
-            <div class="form-row">
-                <div class="col-md-5">
-                    <div class="form-group">
-                        <label class="small mb-1">Username:</label>
-                            {{ user.name }}<pr>
-                        <label class="small mb-1">Email:</label>
-                            {{ user.email }}
-                            <label class="small mb-1">Bio:</label> {{ user.bio }}
-                    </div>
-                    <div class="form-group">
-                        <a href="{% url 'password_change' %}">Change Password</a>
+{% load static %}
+<!DOCTYPE html>
 
-                        
-                    </div>
-                    <div>
-                        <h1 style="color: black;text-align: center;">Cambiar perfil:</h1>
-                        <form method="post"enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{ name.as_p }}
-                        <button type="submit">Afegir</button>
-                        </form>
-                    </div>
+<html>
+<head>
+    <h1 style="color: black;text-align: center;">⬇Tots els anuncis⬇</h1>
+</head>
+<body>
+	<ul id="profile_change">
+	</ul>
+	<script src="{% static 'javascript/usuari.js' %}"></script>
+</body>
+</html>
+{% endblock container %}
 
-                </div>
-            </div>
-    </div>
+
 {% endblock container %}
