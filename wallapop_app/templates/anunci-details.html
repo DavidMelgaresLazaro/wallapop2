@@ -1,12 +1,12 @@
-
+{% extends 'base.html' %}
 {% load static %}
 <html>
   <body>
     <script>
       var ad = "{{ ad_id }}";
     </script>
-    <ul id="anunci">
-    </ul>
+    <div id="anunci">
+    </div>
     <script src="{% static 'javascript/anunci-details.js' %}"></script>
   </body>
 </html>
