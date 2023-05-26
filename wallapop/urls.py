@@ -45,6 +45,7 @@ urlpatterns = [
     path('',index,name="anuncis"),
     path('api/anunci/<int:the_anunci>/', include(router.urls)),
     path('api/comentaris/<int:the_comentari>/', include(router.urls)),
+    path('api/agefir-comentari/', include(router.urls)),
     path('anuncis/<int:pk>/',index_details,name="anunci-details"),
     path('api/anuncis/<int:pk>/', views2.AnunciView_FN),
     path('api/profile/<str:username>/', views2.AnunciView_FN),
