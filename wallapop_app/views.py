@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from .serializers import AnunciSerializer,UsuariSerializer,ComentariSerializer
+from .serializers import AnunciSerializer,UsuariSerializer,ComentariSerializer,UserSerializer
 
 
 from .models import Anunci
@@ -137,50 +137,58 @@ class UsuariViewSet(viewsets.ModelViewSet):
     serializer_class = UsuariSerializer
     permission_classes = [permissions.AllowAny]
 
-class UsuariView_CLS(APIView):
-    def get(self, request, the_anunci):
-        try:
-            anunci = Anunci.objects.get(pk=the_anunci)
-        except:
-            raise Http404
-        serial = AnunciSerializer(anunci, context={'request':request})
-        return Response(serial.data)
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-@api_view(['GET', 'PUT'])
-@permission_classes([IsAuthenticated])
-def edit_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    usuari = get_object_or_404(Usuari, user=user)
     
-    if request.method == 'GET':
-        serializer = UsuariSerializer(usuari)
-        return Response(serializer.data)
+
+
+
+# class UsuariView_CLS(APIView):
+#     def get(self, request, the_anunci):
+#         try:
+#             anunci = Anunci.objects.get(pk1=the_anunci)
+#         except:
+#             raise Http404
+#         serial = AnunciSerializer(anunci, context={'request':request})
+#         return Response(serial.data)
+
+# @api_view(['GET', 'PUT'])
+# @permission_classes([IsAuthenticated])
+# def edit_profile(request, username):
+#     user = get_object_or_404(User, username=username)
+#     usuari = get_object_or_404(Usuari, user=user)
     
-    if request.method == 'PUT':
-        serializer = UsuariSerializer(usuari, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
-def profile(request):
-    return render(request, 'profile.html')
+#     if request.method == 'GET':
+#         serializer = UsuariSerializer(usuari)
+#         return Response(serializer.data)
+    
+#     if request.method == 'PUT':
+#         serializer = UsuariSerializer(usuari, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=400)
+# def profile(request):
+#     return render(request, 'profile.html')
 
 
 
-def veureperfil(request,name):
-    user = get_object_or_404(User, username=name)
+# def veureperfil(request,name):
+#     user = get_object_or_404(User, username=name)
 
-    anuncis = Anunci.objects.all().filter(name = user)
-    usuari = Usuari.objects.get(user = user)
+#     anuncis = Anunci.objects.all().filter(name = user)
+#     usuari = Usuari.objects.get(user = user)
 
 
 
-    context = {
-        'user' : user,
-        'anuncis' : anuncis,
-        'usuari' : usuari,
-    }
-    return render(request, 'profile_view.html', context)
+#     context = {
+#         'user' : user,
+#         'anuncis' : anuncis,
+#         'usuari' : usuari,
+#     }
+#     return render(request, 'profile_view.html', context)
 
 
 
@@ -193,22 +201,40 @@ class SignUpView(generic.CreateView):
 
 
 
-@login_required
+@api_view(['GET', 'PUT', 'POST'])
+@permission_classes([IsAuthenticated])
 def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return Response({'message': 'Your profile is updated successfully'})
+        else:
+            return Response({'errors': user_form.errors + profile_form.errors}, status=400)
+    
+    elif request.method == 'PUT':
+        user_form = UpdateUserForm(request.data, instance=request.user)
+        profile_form = UpdateProfileForm(request.data, request.FILES, instance=request.user.profile)
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='profile')
+            return Response({'message': 'Your profile is updated successfully'})
+        else:
+            return Response({'errors': user_form.errors + profile_form.errors}, status=400)
+    
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    user_data = {'username': request.user.username, 'email': request.user.email}  # Customize the user data as needed
+    profile_data = {'profile_picture': request.user.profile.profile_picture.url}  # Customize the profile data as needed
+
+    return Response({'user_form': user_data, 'profile_form': profile_data})
+
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'

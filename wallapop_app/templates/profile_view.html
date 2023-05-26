@@ -1,22 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Profile Page{% endblock title %}
+
 {% block container %}
-    <img class="rounded-circle" src="/images/{{ usuari.avatar }} " width="400" 
-    height="400" />
-<h1 style="color: black;text-align: center;">{{ usuari.name }}</h1>
-<p>{{ user.username }}</p>
-<p>Email : {{ user.email }}</p>
-<a href="{% url 'profile' user.username %}">Editar Perfil</a>
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <h1 style="color: black;text-align: center;">⬇Usuari⬇</h1>
+</head>
+<html>
+<body>
+	<ul id="userinfo">
+	</ul>
+	<script src="{% static 'javascript/usuari.js' %}"></script>
+</body>
+</html>
+{% endblock container %}
 
-<h1 style="color: black;text-align: center;">Anuncis:</h1>
 
-<p>{{ usuari.bio }}</p>
-    {% for anunci in anuncis %}
-        <b>{{anunci.titol}}</b> <br>
-        <a href="{{ anunci.get_absolute_url }}" ><img src="{{ MEDIA_URL }}{{anunci.foto}}" width="500" height="300"></a>
-        <p><b>Usuari:</b><a href="{{ anunci.name.get_absolute_url }}"> {{anunci.name}}</p></a>
-        <p><b>Data:</b>{{anunci.data}}</p>
-        <p>{{anunci.descripton}}</p>
-        <p><b>Preu:</b> {{anunci.preu}}€</p>
-    {% endfor %} 
 {% endblock container %}

@@ -1,41 +1,21 @@
-const objectList = document.getElementById("profile");
-const dataContainer = document.getElementById('profile');
+const dataContainer = document.getElementById('userinfo');
 
+fetch(`/api/users/`)
+  .then(response => response.json())
+  .then(usuaris => {
+    console.log(usuaris)
+    const usuarisElement = document.createElement('div');
+    usuarisElement.innerHTML = `
+      <h1 style="color: black;text-align: center;">${usuaris.username}</h1>
+      <a><img src="${usuaris.avatar}" width="500" height="300"></a>
+      <p><b>Usuari:</b><a href="/users/${data.name}">${data.name}</a></p>
+      <p><b>:</b>${usuaris.phone}</p>
+      <p>${usuaris.email}</p>
+      <p><b>Bio:</b> ${usuaris.bio}€</p>
 
-
-
-
-            fetch('/api/usuaris/')
-            .then(response => response.json())
-            .then(data => {
-              data.forEach((usuaris, index) => {
-                const item = document.createElement('div');
-                item.innerHTML = `
-                  <div>
-                    <a href="${usuaris.User}">
-                      <img src="${usuaris.avatar}" width="500" height="300">
-                    </a>
-                    <h2>${usuaris.name}</h2>
-                    <p>Posted by: ${usuaris.name}</p>
-                    <p>Adress: ${usuaris.adress}</p>
-                    <p>Bio: ${usuaris.bio}</p>
-                    <p>Email:: $${usuaris.email}</p>
-                    <hr>
-                  </div>
-                `;
-                dataContainer.appendChild(item);
-          
-                const link = document.getElementById(`usuaris/${index}`);
-                link.addEventListener('click', () => {
-                  // Handle the click event here
-                  console.log(`Clicked on item ${index}`);
-                });
-              });
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-
-
-
-
+    `;
+    dataContainer.appendChild(usuarisElement);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
