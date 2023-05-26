@@ -38,7 +38,7 @@ urlpatterns = [
     # path('' , index ,name="anuncis"),#/home
     path('api/',include(router.urls)),
     path('',index,name="anuncis"),
-    path('api/anuncis/<int:pk>/', include(router.urls)),
+    path('api/anunci/<int:the_anunci>/', include(router.urls)),
     path('anuncis/<int:pk>/',index_details,name="anunci-details"),
     path('accounts/',include("django.contrib.auth.urls")),
     path('signup', SignUpView.as_view(), name="signup"),
