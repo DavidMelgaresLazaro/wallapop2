@@ -145,50 +145,50 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 
-# class UsuariView_CLS(APIView):
-#     def get(self, request, the_anunci):
-#         try:
-#             anunci = Anunci.objects.get(pk1=the_anunci)
-#         except:
-#             raise Http404
-#         serial = AnunciSerializer(anunci, context={'request':request})
-#         return Response(serial.data)
+class UsuariView_CLS(APIView):
+    def get(self, request, the_anunci):
+        try:
+            anunci = Anunci.objects.get(pk1=the_anunci)
+        except:
+            raise Http404
+        serial = AnunciSerializer(anunci, context={'request':request})
+        return Response(serial.data)
 
-# @api_view(['GET', 'PUT'])
-# @permission_classes([IsAuthenticated])
-# def edit_profile(request, username):
-#     user = get_object_or_404(User, username=username)
-#     usuari = get_object_or_404(Usuari, user=user)
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def edit_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    usuari = get_object_or_404(Usuari, user=user)
     
-#     if request.method == 'GET':
-#         serializer = UsuariSerializer(usuari)
-#         return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = UsuariSerializer(usuari)
+        return Response(serializer.data)
     
-#     if request.method == 'PUT':
-#         serializer = UsuariSerializer(usuari, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-# def profile(request):
-#     return render(request, 'profile.html')
+    if request.method == 'PUT':
+        serializer = UsuariSerializer(usuari, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+def profile(request):
+    return render(request, 'profile.html')
 
 
 
-# def veureperfil(request,name):
-#     user = get_object_or_404(User, username=name)
+def veureperfil(request,name):
+    user = get_object_or_404(User, username=name)
 
-#     anuncis = Anunci.objects.all().filter(name = user)
-#     usuari = Usuari.objects.get(user = user)
+    anuncis = Anunci.objects.all().filter(name = user)
+    usuari = Usuari.objects.get(user = user)
 
 
 
-#     context = {
-#         'user' : user,
-#         'anuncis' : anuncis,
-#         'usuari' : usuari,
-#     }
-#     return render(request, 'profile_view.html', context)
+    context = {
+        'user' : user,
+        'anuncis' : anuncis,
+        'usuari' : usuari,
+    }
+    return render(request, 'profile_view.html', context)
 
 
 

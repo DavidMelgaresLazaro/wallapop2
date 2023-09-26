@@ -3,7 +3,7 @@ const dataContainer = document.getElementById('anuncis-list');
 fetch('/api/anuncis/')
   .then(response => response.json())
   .then(data => {
-    data.forEach(anunci  => {
+    data.forEach(anunci => {
       const item = document.createElement('div');
       item.innerHTML = `
         <div>

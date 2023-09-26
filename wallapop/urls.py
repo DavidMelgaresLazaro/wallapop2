@@ -35,7 +35,7 @@ from wallapop_app import views as views2
 router = routers.DefaultRouter()
 router.register(r'anuncis', views.AnunciViewSet)
 router.register(r'comentaris', views.ComentariViewSet)
-# router.register(r'usuaris_view')
+router.register(r'users',views.UserViewSet)
 
 
 urlpatterns = [

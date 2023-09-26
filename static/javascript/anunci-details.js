@@ -22,23 +22,23 @@ fetch(`/api/anuncis/${ad}/`)
   .catch(error => {
     console.error('Error:', error);
   });
-  
-  fetch(`/api/comentaris/${ad}/`)
+
+fetch(`/api/comentaris/${ad}/`)
   .then(response => response.json())
   .then(dataResponse => {
     console.log(dataResponse)
-    
+
     if (Array.isArray(dataResponse)) {
       dataResponse.forEach(comment => {
         const objectElement = document.createElement('div');
-          objectElement.innerHTML = `
+        objectElement.innerHTML = `
           <h1 style="color: black;text-align: center;">Comentaris</h1>
           <p><a href="/profile/${comment.name}">${comment.name}</a> <b>  ha comentat:</b></p>    
           <p><b>Data:</b> ${comment.data_com}</p>          
           <p>${comment.description}</p>
           <hr>
           `;
-          dataContainer.appendChild(objectElement);
+        dataContainer.appendChild(objectElement);
       });
     } else {
       const objectElement = document.createElement('div');
@@ -49,7 +49,7 @@ fetch(`/api/anuncis/${ad}/`)
           <p>${dataResponse.description}</p>
           <hr>
           `;
-          dataContainer.appendChild(objectElement);
+      dataContainer.appendChild(objectElement);
     }
   })
   .catch(error => {
